@@ -1,0 +1,6 @@
+__pycache__/
+.codegraph/
+.reasonix/
+*.pyc
+debug.log
+server_dbg.py
