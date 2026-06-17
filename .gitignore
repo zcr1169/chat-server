@@ -2,5 +2,7 @@ __pycache__/
 .codegraph/
 .reasonix/
 *.pyc
+*.docx
+*.pdf
 debug.log
 server_dbg.py
