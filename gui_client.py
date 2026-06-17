@@ -42,6 +42,15 @@ class ChatGUI:
         ":smile:": "😄",
         ":sad:": "😢",
         ":like:": "👍",
+        ":angry:": "😠",
+        ":cool:": "😎",
+        ":cry:": "😭",
+        ":heart:": "❤️",
+        ":star:": "⭐",
+        ":fire:": "🔥",
+        ":thumbsup:": "👍",
+        ":wave:": "👋",
+        ":clap:": "👏",
     }
 
     def replace_emojis(self, text):
