@@ -95,8 +95,3 @@ logout                 登出
 quit                   退出程序
 ```
 
-## 技术要求
-
-- Python 3.8+
-- 仅使用标准库：socket、threading、re、sys、os、time、tkinter
-- 禁止使用 Twisted、websockets、Flask-SocketIO 等第三方库
