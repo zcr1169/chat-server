@@ -9,6 +9,7 @@ import threading
 import tkinter as tk
 from tkinter import scrolledtext, messagebox, filedialog
 import os
+import hashlib
 
 
 class ChatGUI:
@@ -273,10 +274,14 @@ class ChatGUI:
             # E3: 文件中继
             if "Filename" in headers:
                 filename = headers.get("Filename", "unknown")
+                file_size = len(body)
+                file_hash = hashlib.sha256(body).hexdigest()[:16]
                 save_path = os.path.join(".", filename)
                 with open(save_path, "wb") as f:
                     f.write(body)
-                self.append_msg(f"{from_user} 发送文件: {filename} (已保存)")
+                self.append_msg(f"{from_user} 发送文件: {filename}")
+                self.append_msg(f"  大小: {file_size} 字节, SHA256: {file_hash}...")
+                self.append_msg(f"  已保存到 {save_path}")
             else:
                 msg = body.decode("utf-8", errors="replace")
                 if headers.get("Encryption") == "xor":
@@ -383,7 +388,9 @@ class ChatGUI:
         }
         ct = content_types.get(ext, "application/octet-stream")
         self.send_request("FILE", {"Filename": filename, "Content-Type": ct}, file_data)
-        self.append_msg(f"[文件] 已发送 {filename} ({len(file_data)} 字节)")
+        file_hash = hashlib.sha256(file_data).hexdigest()[:16]
+        self.append_msg(f"[文件] 已发送 {filename}")
+        self.append_msg(f"       大小: {len(file_data)} 字节, SHA256: {file_hash}...")
 
     # ══════════════════════════════════════════════════════════
     # 登录 / 登出

@@ -8,6 +8,7 @@ import socket
 import threading
 import sys
 import os
+import hashlib
 
 
 # ─── 常量 ────────────────────────────────────────────────────
@@ -139,10 +140,14 @@ class ChatClient:
             # E3: 文件中继
             if "Filename" in headers:
                 filename = headers.get("Filename", "unknown")
+                file_size = len(body)
+                file_hash = hashlib.sha256(body).hexdigest()[:16]
                 save_path = os.path.join(".", filename)
                 with open(save_path, "wb") as f:
                     f.write(body)
-                print(f"  {from_user} 发送文件: {filename} (已保存到 {save_path})")
+                print(f"  {from_user} 发送文件: {filename}")
+                print(f"    大小: {file_size} 字节, SHA256: {file_hash}...")
+                print(f"    已保存到 {save_path}")
             else:
                 # 普通消息中继
                 msg = body.decode("utf-8", errors="replace")
@@ -269,7 +274,9 @@ class ChatClient:
                         "Filename": filename,
                         "Content-Type": ct,
                     }, file_data)
-                    print(f"[文件] 已发送 {filename} ({len(file_data)} 字节)")
+                    file_hash = hashlib.sha256(file_data).hexdigest()[:16]
+                    print(f"[文件] 已发送 {filename}")
+                    print(f"       大小: {len(file_data)} 字节, SHA256: {file_hash}...")
 
                 # ── logout ──
                 elif line == "logout":
